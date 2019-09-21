@@ -109,10 +109,9 @@ int main(int argc, char *argv[]) {
   // Step2: Create and Start the Graph
   status = hiai::Graph::CreateGraph(kGraphConfigFilePath);
   if (status != HIAI_OK) {
-    printf("Failed to start graph, ret=%d.", status);
+    ERROR_LOG("Failed to start graph, ret=%d.", status);
     return kCreateGraphFailed;
   }
-  printf("success  to start graph.\n");
 
   // Step3: get instance
   std::shared_ptr<hiai::Graph> graph = hiai::Graph::GetInstance(kGraphId);
@@ -134,7 +133,6 @@ int main(int argc, char *argv[]) {
     ERROR_LOG("Failed to set callback function.");
     return kSetCallbackFunctionError;
   }
-  printf("success  to SetDataRecvFunctor.\n");
 
   // Step5: send data
   hiai::EnginePortID engine_id;
@@ -151,25 +149,17 @@ int main(int argc, char *argv[]) {
   SetConsoleParams(argv, param_ptr);
   graph->SendData(engine_id, "ConsoleParams",
                   static_pointer_cast<void>(param_ptr));
-  
-  printf("success  to SendData.\n");
 
-  int i = 0;
   for (;;) {
     // finished, break
     if (flag <= 0) {
       break;
     } else {
       usleep(kSleepInterval);
-	  i++;
     }
-	if (i >=65535)
-		break;
-  } 
+  }
 
   // destroy graph
   hiai::Graph::DestroyGraph(kGraphId);
-  printf("DestroyGraph.\n");
-  
   return 0;
 }

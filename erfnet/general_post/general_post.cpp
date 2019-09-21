@@ -204,7 +204,7 @@ HIAI_StatusT GeneralPost::ErfNetPostProcess(
   class_each_row = class_each_row.t(); // transpose to make each row with all probabilities
   cv::Point maxId;	// point [x,y] values for index of max
   double maxValue;	// the holy max value itself
-  cv::Mat prediction_map(512, 1024, CV_8UC1);
+  cv::Mat prediction_map(512,1024,CV_8UC1);
   
   printf("ErfNetPostProcess class_each_row.rows %d  end \n",class_each_row.rows);
   for (int i=0;i<class_each_row.rows;i++){
@@ -215,9 +215,10 @@ HIAI_StatusT GeneralPost::ErfNetPostProcess(
   printf("ErfNetPostProcess minMaxLoc  end \n");
   cv::cvtColor(prediction_map.clone(), prediction_map, CV_GRAY2BGR);
   cv::cvtColor(label_colours, label_colours, CV_RGB2BGR);
-  cv::Mat output_image;
+  cv::Mat output_image,mat;
   cv::LUT(prediction_map, label_colours, output_image);
-  
+  //resize(mat,output_image,cv::Size(result->image_info.width, result->image_info.height),1024/result->image_info.width,512/result->image_info.height);      
+
   printf("output_image row %d \n",output_image.rows);
   printf("output_image col %d \n",output_image.cols);
   printf("output_image dims %d \n",output_image.dims);

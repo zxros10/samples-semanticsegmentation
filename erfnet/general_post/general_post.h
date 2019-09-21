@@ -58,7 +58,6 @@ class Tensor {
 
     bool FromArray(const T* pdata, const std::vector<uint32_t>& shape){
       if(pdata == nullptr){
-	  	printf("error 0 \n");
         return false;
       }
       Clear();
@@ -67,14 +66,12 @@ class Tensor {
         if(dim>0){
           size *= dim;
         }else{
-           printf("error 1\n");
           return false;
         }
       }
       data_ = new T[size];
       int ret = memcpy_s(data_, size * sizeof(T), pdata, size * sizeof(T));
       if(ret !=0){
-	  	printf("error 2\n");
         return false;
       }
       dims_ = shape;

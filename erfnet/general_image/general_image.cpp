@@ -153,6 +153,7 @@ void GeneralImage::GetPathFiles(const string &path, vector<string> &file_vec) {
     file_vec.emplace_back(path);
   }
 }
+
 bool GeneralImage::ArrangeImageInfo(shared_ptr<EngineTrans> &image_handle,
                                     const string &image_path) {
   /* read image using OPENCV */
@@ -161,24 +162,32 @@ bool GeneralImage::ArrangeImageInfo(shared_ptr<EngineTrans> &image_handle,
   {
 	  ERROR_LOG("Failed to deal file. imread failed.");
 	  return false;
-  }
+  }  
   
-  cv::Mat sample_resized,dstmat;  
-  cvtColor(mat, dstmat, CV_BGR2RGB);
-  mat = dstmat;
-  
-  resize(mat,sample_resized,cv::Size(1024,512),mat.cols/1024,mat.rows/512);  
-  //resize(mat,sample_resized,cv::Size(1024,512),mat.cols/1024,mat.rows/512);   
-    
-  mat = sample_resized;
-  printf("%d %d ",mat.cols,mat.rows);
-  
-  // set property
   image_handle->image_info.path = image_path;
   image_handle->image_info.width = mat.cols;
   image_handle->image_info.height = mat.rows;
-
   printf("mat.channels() %d \n",mat.channels());
+  printf(" cols %d  rows %d \n",mat.cols, mat.rows);
+  
+  cv::Mat sample_resized,dstmat;   
+
+  cvtColor(mat, dstmat,CV_BGR2RGB);
+  mat = dstmat;
+  
+  resize(mat,sample_resized,cv::Size(1024,512),mat.cols/1024,mat.rows/512);      
+  mat = sample_resized;
+
+  
+  cv::Mat aChannel[3];
+  cv::split(mat, aChannel);  
+	 
+  cv::Mat newChannels[3] = {aChannel[0], aChannel[1] , aChannel[2]};
+  
+  cv::merge(newChannels, 3, mat);
+  printf("%d %d ",mat.cols,mat.rows);
+    
+  // set property
   
   // set image data
   uint32_t size = mat.total() * mat.channels();  

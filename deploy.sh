@@ -93,20 +93,20 @@ function deploy_cvverify()
         upload_tar_file "${script_path}/script/opencv_lib.tar" "~/HIAI_PROJECTS/ascend_lib"
     fi
     #deploy app
-    if [ -d ${script_path}/erfnet/out ];then
+    if [ -d ${script_path}/segmentation/out ];then
         echo "[Step] Deploy app libs..."
-        iRet=`IDE-daemon-client --host ${remote_host}:${remote_port} --hostcmd "rm -rf ~/HIAI_PROJECTS/ascend_workspace/ascend_erfnet"`
+        iRet=`IDE-daemon-client --host ${remote_host}:${remote_port} --hostcmd "rm -rf ~/HIAI_PROJECTS/ascend_workspace/ascend_segmentation"`
         if [[ $? -ne 0 ]];then
-            echo "ERROR: delete ${remote_host}:./HIAI_PROJECTS/ascend_workspace/ascend_erfnet failed, please check /var/log/syslog for details."
+            echo "ERROR: delete ${remote_host}:./HIAI_PROJECTS/ascend_workspace/ascend_segmentation failed, please check /var/log/syslog for details."
             return 1
         fi
-        upload_path ${script_path}/erfnet/out "~/HIAI_PROJECTS/ascend_workspace/erfnet/out"
+        upload_path ${script_path}/segmentation/out "~/HIAI_PROJECTS/ascend_workspace/segmentation/out"
         if [[ $? -ne 0 ]];then
             return 1
         fi
-        iRet=`IDE-daemon-client --host ${remote_host}:${remote_port} --hostcmd "chmod +x ~/HIAI_PROJECTS/ascend_workspace/erfnet/out/ascend_erfnet"`
+        iRet=`IDE-daemon-client --host ${remote_host}:${remote_port} --hostcmd "chmod +x ~/HIAI_PROJECTS/ascend_workspace/segmentation/out/ascend_segmentation"`
         if [[ $? -ne 0 ]];then
-            echo "ERROR: change excution mode ${remote_host}:./HIAI_PROJECTS/ascend_workspace/erfnet/out/* failed, please check /var/log/syslog for details."
+            echo "ERROR: change excution mode ${remote_host}:./HIAI_PROJECTS/ascend_workspace/segmentation/out/* failed, please check /var/log/syslog for details."
             return 1
         fi
     fi
@@ -125,7 +125,7 @@ main()
         exit 1
     fi
     
-    echo "Finish to deploy erfnet."
+    echo "Finish to deploy segmentation."
     exit 0
 }
 

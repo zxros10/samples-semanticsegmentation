@@ -31,7 +31,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #   =======================================================================
 
-app_type="erfnet"
+app_type="segmentation"
 
 script_path="$( cd "$(dirname "$0")" ; pwd -P )"
 
@@ -54,17 +54,17 @@ main()
     atlas_target=`echo ${atlas_target} | sed 's/ //g' `
 
     echo "Clear app build path..."
-    rm -rf ${app_path}/erfnet/out
+    rm -rf ${app_path}/segmentation/out
 
     echo "Build main..."
-    make mode=${atlas_target} -C ${app_path}/erfnet 1>/dev/null
+    make mode=${atlas_target} -C ${app_path}/segmentation 1>/dev/null
     if [ $? -ne 0 ];then
         exit 1
     fi
 
-    for file in `find ${app_path}/erfnet -name "Makefile"`
+    for file in `find ${app_path}/segmentation -name "Makefile"`
     do
-        if [ ${file} == "${app_path}/erfnet/Makefile" ];then
+        if [ ${file} == "${app_path}/segmentation/Makefile" ];then
             continue
         fi
         path=`dirname ${file}`
@@ -76,11 +76,11 @@ main()
         fi
     done
     
-    cp ${app_path}/run_erfnet.py ${app_path}/erfnet/out
-    cp ${app_path}/erfnet/graph.template ${app_path}/erfnet/out/graph.config
-    cp ${app_path}/erfnet/erfnet.om ${app_path}/erfnet/out
-    cp ${app_path}/erfnet/city.png  ${app_path}/erfnet/out
-    cp ${app_path}/erfnet/input.png ${app_path}/erfnet/out
+    cp ${app_path}/run_segmentation.py ${app_path}/segmentation/out
+    cp ${app_path}/segmentation/graph.template ${app_path}/segmentation/out/graph.config
+    cp ${app_path}/segmentation/*.om ${app_path}/segmentation/out
+    cp ${app_path}/segmentation/city.png  ${app_path}/segmentation/out
+    cp ${app_path}/segmentation/input.png ${app_path}/segmentation/out
     
     echo "Finish to Build app."
     exit 0

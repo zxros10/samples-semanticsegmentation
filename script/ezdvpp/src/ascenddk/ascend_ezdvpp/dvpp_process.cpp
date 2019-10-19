@@ -534,7 +534,8 @@ int DvppProcess::DvppBasicVpc(const uint8_t *input_buf, int32_t input_size,
 
     // check output image params
     int output_width = dvpp_instance_para_.basic_vpc_para.dest_resolution.width;
-    int output_height = dvpp_instance_para_.basic_vpc_para.dest_resolution.height;
+    int output_height = dvpp_instance_para_.basic_vpc_para.dest_resolution
+            .height;
 
     ret = DvppUtils::CheckBasicVpcOutputParam(output_width, output_height);
     if (ret != kDvppOperationOk) {
